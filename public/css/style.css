@@ -228,11 +228,19 @@ header {
   text-align: center;
 }
 
-.UpDown{
-  color: #aaaaaa;
-  margin: auto 0;
+[type=radio] { 
+  position: absolute;
+  width: 0;
+  height: 0;
 }
 
-.UpDown:visited{
-  color: #aaaaaa;
+[type=radio] + i {
+  padding-top: 10px;
+  cursor: pointer;
+  color: #c9c9c9;
+}
+
+
+[type=radio]:checked + i {
+  color: rgb(0, 224, 4);
 }

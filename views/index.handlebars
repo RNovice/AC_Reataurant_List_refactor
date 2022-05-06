@@ -7,18 +7,28 @@
           <div class="input-group-append">
             <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
           </div>
+
           <div class="blank-block"></div>
           <form action="">
             <select class="sort" name="sort" id="sort" onchange="this.form.submit()">
-              <option value="volvo"> 名稱(中) </option>
-              <option value="volvo"> 名稱(英) </option>
-              <option value="saab">別類</option>
-              <option value="mercedes">評分</option>
-              <option value="audi">地區</option>
+              <option value="" selected disabled hidden>{{#if sort}} {{sort}} {{else}} sort {{/if}}</option>
+              <option value="name">name</option>
+              <option value="name_en">name_en</option>
+              <option value="category">category</option>
+              <option value="rating">rating</option>
+              <option value="location">location</option>
             </select>
           </form>
-          <a class="UpDown" href=""><i class="fa-solid fa-up-long"></i></a>
-          <a class="UpDown" href=""><i class="fa-solid fa-down-long"></i></a>
+          
+          <label>
+            <input type="radio" name="ADe" value="asc" checked>
+            <i class="fa-solid fa-up-long"></i>
+          </label>
+          <label>
+            <input type="radio" name="ADe" value="desc" {{#if ADe}} checked {{/if}}>
+            <i class="fa-solid fa-down-long"></i>
+          </label> 
+       
         </div>
       </form>
     </div>

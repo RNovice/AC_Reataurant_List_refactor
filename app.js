@@ -42,9 +42,14 @@ app.get('/restaurants/:id', (req, res) => {
 })
 
 app.get('/search', (req, res)  => {
-
+    const sort = {}
+    sort[req.query.sort] = 'asc'
+    if (req.query.ADe){
+        sort[req.query.sort] = `${req.query.ADe}`
+    }
     Restaurant.find()
         .lean()
+        .sort(sort)
         .then(restaurants => {
             const keyword = [
                 ...(restaurants.filter( 
@@ -59,7 +64,10 @@ app.get('/search', (req, res)  => {
                 return arr.indexOf(item) === index
             })
 
-            res.render('index', { restaurants : filteredSearchResults, keyword : req.query.keyword })            
+            res.render('index', { restaurants : filteredSearchResults, 
+                keyword : req.query.keyword, 
+                sort : req.query.sort,
+                ADe : req.query.ADe !== 'asc' })            
         })
         .catch(error => console.error(error))
 
