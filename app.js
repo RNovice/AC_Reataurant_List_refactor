@@ -1,23 +1,13 @@
 const express = require('express')
 const exhbs = require('express-handlebars')
-const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
+
 const routes = require('./routes')
-const app = express()
+require('./config/mongoose')
+
 const port = 3000
-
-mongoose.connect(`mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASS}@cluster0.aruzh.mongodb.net/restauramt_list_CRUD?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true })
-
-const db = mongoose.connection
-
-db.on('error', () => {
-    console.log('mongobd error')
-})
-
-db.once('open', () => { 
-    console.log('mongodb connected')
-})
+const app = express()
 
 app.engine('handlebars', exhbs.engine({ defaultLayout : 'main' }))
 app.set ('view engine', 'handlebars')

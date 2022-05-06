@@ -13,14 +13,9 @@ router.get('/', (req, res) => {
 })
 
 router.get('/search', (req, res)  => {
-    const sort = {}
-    sort[req.query.sort] = 'asc'
-    if (req.query.ADe){
-        sort[req.query.sort] = `${req.query.ADe}`
-    }
     Restaurant.find()
         .lean()
-        .sort(sort)
+        .sort({[req.query.sort]:`${req.query.ADe}`})
         .then(restaurants => {
             const keyword = [
                 ...(restaurants.filter( 
