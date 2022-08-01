@@ -19,18 +19,11 @@ router.get('/search', (req, res)  => {
         .lean()
         .sort({[req.query.sort]:`${req.query.ADe}`})
         .then(restaurants => {
-            //將與關鍵字相符的資料放入keyword中
-            let keyword = []
-            const arr = ['name', 'name_en', 'category']
-            arr.forEach(each => {
-                keyword.push(...(restaurants.filter(
-                    rtr => rtr[each].toLowerCase().includes(req.query.keyword.toLowerCase()))))
+            const keyword = req.query.keyword
+            const filteredSearchResults = restaurants.filter(rtr => {
+                return rtr.name.toLowerCase().includes(keyword) || rtr.name_en.toLowerCase().includes(keyword) || rtr.category.toLowerCase().includes(keyword)
             })
-            //移除重複的資料
-            const filteredSearchResults = keyword.filter((item,index,arr)=>{
-                return arr.indexOf(item) === index
-            })
-            //根據排序方式渲染
+            
             res.render('index', { restaurants : filteredSearchResults, 
                 keyword : req.query.keyword, 
                 sort : req.query.sort,
