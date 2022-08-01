@@ -4,6 +4,7 @@ const router = express.Router()
 
 const Restaurant = require('../../models/restaurant')
 
+//各餐廳詳細資料
 router.get('/:id', (req, res) => {
     Restaurant.findById(req.params.id)
         .lean()
@@ -11,6 +12,7 @@ router.get('/:id', (req, res) => {
         .catch(error => console.log(error))
 })
 
+//新增餐廳資料
 router.post('/', (req, res) => {
     Restaurant.create(req.body)
         .then(() => res.redirect('/'))
@@ -18,6 +20,7 @@ router.post('/', (req, res) => {
     
 })
 
+//刪除餐廳資料
 router.delete('/:id', (req, res) => {
     Restaurant.findById(req.params.id)
         .then(rtr => rtr.remove())
@@ -25,6 +28,7 @@ router.delete('/:id', (req, res) => {
         .catch(error => console.log(error))
 })
 
+//編輯頁面
 router.get('/:id/edit', (req, res) => {
     Restaurant.findById(req.params.id)
         .lean()
@@ -32,6 +36,7 @@ router.get('/:id/edit', (req, res) => {
         .catch(error => console.log(error))
 })
 
+//編輯餐廳資料
 router.put('/:id', (req, res) => {
     Restaurant.findByIdAndUpdate(req.params.id, req.body)
         .then(() => res.redirect(`/restaurants/${req.params.id}`))
