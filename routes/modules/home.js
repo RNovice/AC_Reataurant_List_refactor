@@ -4,6 +4,7 @@ const router = express.Router()
 
 const Restaurant = require('../../models/restaurant')
 
+//根目錄
 router.get('/', (req, res) => {
 
     Restaurant.find()
@@ -12,24 +13,24 @@ router.get('/', (req, res) => {
         .catch(error => console.error(error))
 })
 
+//搜尋功能
 router.get('/search', (req, res)  => {
     Restaurant.find()
         .lean()
         .sort({[req.query.sort]:`${req.query.ADe}`})
         .then(restaurants => {
-            const keyword = [
-                ...(restaurants.filter( 
-                    rtr => rtr.name.toLowerCase().includes(req.query.keyword.toLowerCase()))),
-                ...(restaurants.filter( 
-                    rtr => rtr.name_en.toLocaleLowerCase().includes(req.query.keyword.toLowerCase()))),
-                ...(restaurants.filter( 
-                    rtr => rtr.category.includes(req.query.keyword)))
-            ]
-
+            //將與關鍵字相符的資料放入keyword中
+            let keyword = []
+            const arr = ['name', 'name_en', 'category']
+            arr.forEach(each => {
+                keyword.push(...(restaurants.filter(
+                    rtr => rtr[each].toLowerCase().includes(req.query.keyword.toLowerCase()))))
+            })
+            //移除重複的資料
             const filteredSearchResults = keyword.filter((item,index,arr)=>{
                 return arr.indexOf(item) === index
             })
-
+            //根據排序方式渲染
             res.render('index', { restaurants : filteredSearchResults, 
                 keyword : req.query.keyword, 
                 sort : req.query.sort,
@@ -39,6 +40,7 @@ router.get('/search', (req, res)  => {
 
 })
 
+//新增頁面
 router.get('/add', (req, res) => {
     res.render('add')
 })
